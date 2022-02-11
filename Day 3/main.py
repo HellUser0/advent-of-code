@@ -1,70 +1,94 @@
 with open("input.txt") as f:
-    f = f.read().split("\n")
+    f = list(map(str, f.read().split("\n")))
+    f = [list(i) for i in f]
 
 # Part One
 
-for i in range(len(f)):
-    f[i] = list(f[i])
-half = -(-len(f)//2)
+x = 3
+y = 1
 
-gamma = ""
-epsilon = ""
-for i in range(len(f[0])):
-    amount = 0
-    for j in range(len(f)):
-        if f[j][i] == "1":
-            amount += 1
-    if amount >= half:
-        gamma += "1"
-        epsilon += "0"
-    else:
-        gamma += "0"
-        epsilon += "1"
+n = 0
+while y < len(f):
+    if x >= len(f[y]):
+        x -= len(f[y])
+    if f[y][x] == "#":
+        n += 1
+    x += 3
+    y += 1
 
-print(int(gamma, 2)*int(epsilon, 2))
+print(n)
 
-# Part Two, god this is really fucking scuffed and I'm not going to clean it up
-i = 0
-while i <= len(f[0]):
-    amount = 0
-    for j in range(len(f)):
-        if f[j][i] == "1":
-            amount += 1
-    j = 0
-    half = -(-len(f)//2)
-    while j < len(f):
-        if (amount >= half and f[j][i] == "0") or (amount < half and f[j][i] == "1"):
-            f.pop(j)
-        else:
-            j += 1
-    if len(f) == 1:
-        break
-    i += 1
-oxygen = ''.join(f[0])
+# Part Two
 
-with open("input.txt") as f:
-    f = f.read().split("\n")
+s = 1
 
-for i in range(len(f)):
-    f[i] = list(f[i])
+x = 1
+y = 1
 
-i = 0
-while i <= len(f[0]):
-    amount = 0
-    for j in range(len(f)):
-        if f[j][i] == "1":
-            amount += 1
-    j = 0
-    half = -(-len(f)//2)
-    while j < len(f):
-        if (amount < half and f[j][i] == "0") or (amount >= half and f[j][i] == "1"):
-            f.pop(j)
-        else:
-            j += 1
-    if len(f) == 1:
-        break
-    i += 1
-co2 = ''.join(f[0])
+n = 0
+while y < len(f):
+    if x >= len(f[y]):
+        x -= len(f[y])
+    if f[y][x] == "#":
+        n += 1
+    x += 1
+    y += 1
 
-print(int(oxygen, 2)*int(co2, 2))
-  
+s *= n
+
+x = 3
+y = 1
+
+n = 0
+while y < len(f):
+    if x >= len(f[y]):
+        x -= len(f[y])
+    if f[y][x] == "#":
+        n += 1
+    x += 3
+    y += 1
+
+s *= n
+
+x = 5
+y = 1
+
+n = 0
+while y < len(f):
+    if x >= len(f[y]):
+        x -= len(f[y])
+    if f[y][x] == "#":
+        n += 1
+    x += 5
+    y += 1
+
+s *= n
+
+x = 7
+y = 1
+
+n = 0
+while y < len(f):
+    if x >= len(f[y]):
+        x -= len(f[y])
+    if f[y][x] == "#":
+        n += 1
+    x += 7
+    y += 1
+
+s *= n
+
+x = 1
+y = 2
+
+n = 0
+while y < len(f):
+    if x >= len(f[y]):
+        x -= len(f[y])
+    if f[y][x] == "#":
+        n += 1
+    x += 1
+    y += 2
+
+s *= n
+print(s)

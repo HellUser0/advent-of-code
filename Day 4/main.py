@@ -1,63 +1,79 @@
 with open("input.txt") as f:
-    f = f.read().split("\n\n")
-
-seq = f[0].split(",")
-
-def bingo(board):
-    a = []
-    for i in range(len(board)):
-        a.append(board[i])
-    for i in range(len(seq)):
-        for j in range(len(board)):
-            if board[j] == seq[i]:
-                a[j] = "x"
-            # Horizontal
-            for k in range(0, len(a), 5):
-                if a[k] == a[k+1] == a[k+2] == a[k+3] == a[k+4] == "x":
-                    total = 0
-                    for l in range(len(a)):
-                        if a[l] != "x":
-                            total += int(a[l])
-                    return [total, int(seq[i]) ,i]
-            # Vertical
-            for k in range(0, 5):
-                if a[k] == a[k+5] == a[k+10] == a[k+15] == a[k+20] == "x":
-                    total = 0
-                    for l in range(len(a)):
-                        if a[l] != "x":
-                            total += int(a[l])
-                    return [total, int(seq[i]) ,i]
+    f = list(map(str, f.read().split("\n\n")))
+    #f = [i.split() for i in f]
 
 # Part One
+n = 0
 
-x = 1
-lowest = [0, 0, 999]
-while True:
-    try:
-        board = f[x].split()
-        stats = bingo(board)
-        if stats[2] < lowest[2]:
-            lowest = stats
+for i in f:
+    if "byr" in i and "iyr" in i and "eyr" in i and "hgt" in i and "hcl" in i and "ecl" in i and "pid" in i:
+        n += 1
+    else:
+        f.remove(i)
 
-        x += 1
-    except:
-        break
+print(n)
 
-print(lowest[0] * lowest[1])
+# Part Two :edegabudgetcuts:
+n = 0
+f = [i.split() for i in f]
+f = [[j.split(":") for j in i] for i in f]
 
-# Part Two
-
-x = 1
-highest = [0, 0, 0]
-while True:
-    try:
-        board = f[x].split()
-        stats = bingo(board)
-        if stats[2] > highest[2]:
-            highest = stats
-
-        x += 1
-    except:
-        break
-
-print(highest[0] * highest[1])
+for i in f:
+    valid = True
+    i.sort()
+    for j in i:
+        if j[0] == 'byr':
+            if int(j[1]) >= 1920 and int(j[1]) <= 2002:
+                pass
+            else:
+                break
+        if j[0] == 'iyr':
+            if int(j[1]) >= 2010 and int(j[1]) <= 2020:
+                pass
+            else:
+                break
+        if j[0] == 'eyr':
+            if int(j[1]) >= 2020 and int(j[1]) <= 2030:
+                pass
+            else:
+                break
+        if j[0] == 'hgt':
+            if 'cm' in j[1]:
+                j[1] = j[1].strip('cm')
+                if int(j[1]) >= 150 and int(j[1]) <= 193:
+                    pass
+                else:
+                    break
+            elif 'in' in j[1]:
+                j[1] = j[1].strip('in')
+                if int(j[1]) >= 59 and int(j[1]) <= 76:
+                    pass
+                else:
+                    break
+            else:
+                break
+        if j[0] == 'hcl':
+            if len(j[1]) != 7:
+                break
+            elif j[1][0] != "#":
+                break
+            else:
+                for k in j[1]:
+                    if k in "#0123456789abcdef":
+                        pass
+                    else:
+                        break
+        if j[0] == 'ecl':
+            if j[1] == "amb" or j[1] == "blu" or j[1] == "brn" or j[1] == "gry" or j[1] == "grn" or j[1] == "hzl" or j[1] == "oth":
+                pass
+            else:
+                break
+        if j[0] == 'pid':
+            if len(j[1]) == 9:
+                pass
+            else:
+                break
+    else:
+        print(i)
+        n += 1
+print(n)
